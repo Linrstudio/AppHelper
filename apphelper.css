@@ -52,7 +52,7 @@
 .AH_IFM1 iframe{height:480px;}
 .AH_IFM2 iframe{height:720px;}
 .AH_IFM3 iframe{height:960px;}
-.AH_IFM_HEADER{height:25px;line-height:20px;text-align:center;-webkit-user-select:none;}
+.AH_IFM_HEADER{height:25px;line-height:20px;text-align:center;}
 .AH_IFM_TXT{color:#FFF;cursor:pointer;}
 .AH_CAPTURE{position:absolute;left:10px;}
 

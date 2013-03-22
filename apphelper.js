@@ -21,9 +21,9 @@ apphelper.addDetailBox = function(){
 			tag.className = "AH_SCREENS";
 			tag.style.height = (document.documentElement.scrollHeight + document.documentElement.scrollTop) + 'px';
 			tag.innerHTML = '<div id="' + id + '_CNT" class="AH_SCREENS_CNT">\
-								<div class="AH_IFM AH_IFM1"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM1 iframe"><a class="AH_IFM_TXT" data-height="480">320 x 480</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0></iframe></div>\
-								<div class="AH_IFM AH_IFM2"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM2 iframe"><a class="AH_IFM_TXT" data-height="720">480 x 720</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0></iframe></div>\
-								<div class="AH_IFM AH_IFM3"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM3 iframe"><a class="AH_IFM_TXT" data-height="960">640 x 960</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0></iframe>\
+								<div class="AH_IFM AH_IFM1"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM1 iframe"><a class="AH_IFM_TXT" data-height="480">320 x 480</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=0></iframe></div>\
+								<div class="AH_IFM AH_IFM2"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM2 iframe"><a class="AH_IFM_TXT" data-height="720">480 x 720</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=1.5></iframe></div>\
+								<div class="AH_IFM AH_IFM3"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM3 iframe"><a class="AH_IFM_TXT" data-height="960">640 x 960</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=2></iframe>\
 								</div>\
 							</div>';
 			previewbox.appendChild(tag);
@@ -79,6 +79,14 @@ apphelper.bindEvent = function(doc){
 					iframe.style.height = iframe.contentDocument.documentElement.scrollHeight + 'px';
 				}
 			}
+		}
+	}
+	var ifms = document.querySelectorAll('.AH_IFM iframe');
+	for(var i = 0, j = ifms.length; i < j; i ++){
+		ifms[i].onload = function(e){
+			var me = this;
+			var idx = me.getAttribute('data-idx');
+			me.contentDocument.body.style.zoom = idx;
 		}
 	}
 }
