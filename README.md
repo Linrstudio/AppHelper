@@ -4,7 +4,7 @@ Web App 调试助手 是一个 Chrome 扩展，用于快速查看 Web app 在各
 
 ### 安装
 
-在 [Download](https://github.com/Linrstudio/AppHelper/tree/master/download 'Download') 下载 apphelper.crx 后，在 Chrome 中进入chrome://extensions/ 页面，将 crx 文件拖进去，完成安装。
+在 [Download](https://github.com/Linrstudio/AppHelper/tree/master/download 'Download') 下载 apphelper.crx 后，在 Chrome 中进入 chrome://extensions/ 页面，将 crx 文件拖进去，完成安装。
 按此步骤以避免提示：“无法添加来自此网站的应用、扩展和用户脚本”错误。
 
 
