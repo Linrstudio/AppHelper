@@ -1,7 +1,7 @@
-## Web App µ÷ÊÔÖúÊÖ
+## Web App è°ƒè¯•åŠ©æ‰‹
 
-### Web App ÊÇÒ»¸ö Chrome À©Õ¹£¬ÓÃÓÚ¿ìËÙ²é¿´ Web app ÔÚ¸÷ÖÖÒÆ¶¯ÖÕ¶ËÉÏ³ß´çµÄÍâ¹Û£¬°üº¬½ØÆÁ¹¦ÄÜ¡£
+### Web App æ˜¯ä¸€ä¸ª Chrome æ‰©å±•ï¼Œç”¨äºŽå¿«é€ŸæŸ¥çœ‹ Web app åœ¨å„ç§ç§»åŠ¨ç»ˆç«¯ä¸Šå°ºå¯¸çš„å¤–è§‚ï¼ŒåŒ…å«æˆªå±åŠŸèƒ½ã€‚
 
-### ·´À¡
+### åé¦ˆ
 
 http://t.qq.com/linrstudio
