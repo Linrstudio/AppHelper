@@ -16,6 +16,10 @@ http://t.qq.com/linrstudio
 
 ### Web App Helper is a Chrome extension.
 
+### Installation
+
+download apphelper.crx and drag-drop in Chrome to install.
+
 ### feedback
 
 http://t.qq.com/linrstudio
