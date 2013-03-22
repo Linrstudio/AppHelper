@@ -1,0 +1,24 @@
+{
+   "title": {
+      "message": "Web App 调试助手"
+   },
+   "description": {
+      "message": "快速使用移动终端尺寸查看网页"
+   },
+   "appname": {
+      "message": "Web App调试助手"
+   },
+   "capture": {
+      "message": "截图"
+   },
+   "user": {
+      "description": ".",
+      "message": "$number$ ",
+      "placeholders": {
+         "number": {
+            "content": "$1",
+            "example": "."
+         }
+      }
+   }
+}

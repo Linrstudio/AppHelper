@@ -1,0 +1,24 @@
+{
+   "title": {
+      "message": "Web App 調試助手"
+   },
+   "description": {
+      "message": "快速使用移動終端尺寸查看網頁"
+   },
+   "appname": {
+      "message": "Web App 調試助手"
+   },
+   "capture": {
+      "message": "截圖"
+   },
+   "user": {
+      "description": ".",
+      "message": "$number$ ",
+      "placeholders": {
+         "number": {
+            "content": "$1",
+            "example": "."
+         }
+      }
+   }
+}

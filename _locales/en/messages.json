@@ -1,0 +1,24 @@
+{
+   "title": {
+      "message": "Web App Debugger Helper"
+   },
+   "description": {
+      "message": "View Web App with Device Width"
+   },   
+   "appname": {
+      "message": "Web App Debugger Helper"
+   },
+   "capture": {
+      "message": "Capture"
+   },
+   "user": {
+      "description": ".",
+      "message": "$number$ ",
+      "placeholders": {
+         "number": {
+            "content": "$1",
+            "example": "."
+         }
+      }
+   }
+}

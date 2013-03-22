@@ -1,0 +1,29 @@
+{
+   "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+   "browser_action": {
+      "default_icon": "images/logo64x64.png",
+      "default_title": "__MSG_title__"
+   },
+   "content_scripts": [ {
+      "css": [ "apphelper.css" ],
+      "js": [ "apphelper.js" ],
+      "matches": [ "http://*/*", "https://*/*", "file:///*"],
+      "run_at": "document_end"
+   } ],
+   "default_locale": "zh_CN",
+   "description": "__MSG_description__",
+   "icons": {
+      "128": "images/logo64x64.png",
+      "16": "images/logo64x64.png",
+      "32": "images/logo64x64.png",
+      "48": "images/logo64x64.png"
+   },
+	"name": "apphelper",
+	//"options_page": "options.html",
+	"permissions": [ "tabs", "http://*/*", "https://*/*", "file:///*", "<all_urls>"],
+	"manifest_version": 2,
+	"version": "1.0.0.0"
+}

@@ -1,0 +1,41 @@
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<script>
+alert(2);
+chrome.browserAction.onClicked.addListener(function(tab) {
+  //chrome.extension.getURL('image.html');
+	
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendMessage(tab.id, {msg : 'clicked'}, function(){});
+	});
+
+});
+// *************************************************************************************************
+chrome.extension.onMessage.addListener(
+    function(request, sender, sendResponse){
+        if (request.name == 'check_exist'){
+		
+		}else if(request.name == 'preview'){
+			
+			
+		}else if(request.name == 'get_img_info'){
+			var href = request['href'],
+				index = request['index'];
+				
+				ajax(href, function(rsp, index){
+					sendResponse({stat : 1, index : index, href : href, msg : rsp.responseText});
+				}, index);
+			
+		}else if(request.name == 'get_info'){
+			
+		}else{
+			
+		}
+	}
+)
+</script>
+</body>
+</html>
