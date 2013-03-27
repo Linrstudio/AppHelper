@@ -1,3 +1,13 @@
+function getVal(n){
+	return localStorage[n];
+}
+function setVal(n,v){
+	localStorage[n] = v;
+}
+function clearConfig() {
+    localStorage.clear();
+}
+
 function captuteScreen(offset, sendResponse){
 	chrome.windows.getCurrent(function (win) {    
 		chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
@@ -36,8 +46,22 @@ chrome.extension.onMessage.addListener(
 			captuteScreen(request.offset, function(obj){
 				chrome.tabs.create({ url: obj['url'] });
 			});
+		}else if(request.name == 'get_value'){
+			getValue(request.val, sendResponse);
+			
+		}else if(request.name == 'get_localstorage'){
+			sendResponse({ val: getVal(request.val)});
+		}else if(request.name == 'set_localstorage'){
+			sendResponse({ key: setVal(request.key, request.val)});
 		}
 	}
 )
 // *************************************************************************************************
-//chrome.extension.getURL('image.html');
+//chrome.extension.getURL('image.html');//chrome.tabs.duplicate(tab.id);
+chrome.commands.onCommand.addListener(function(command){
+  chrome.tabs.update({}, function(tab) {
+    if(command == 'preview-tab'){
+	  chrome.tabs.sendMessage(tab.id, {msg : 'clicked'}, function(){});
+	}
+  });
+});

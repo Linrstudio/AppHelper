@@ -11,6 +11,12 @@
    "capture": {
       "message": "Capture"
    },
+   "disabled": {
+      "message": "disabled"
+   },
+   "remember": {
+      "message": "Refresh Enable"
+   },
    "user": {
       "description": ".",
       "message": "$number$ ",

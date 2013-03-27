@@ -3,6 +3,7 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "content_security_policy": "script-src 'self'; object-src 'self'",
    "browser_action": {
       "default_icon": "images/logo64x64.png",
       "default_title": "__MSG_title__"
@@ -24,6 +25,18 @@
 	"name": "apphelper",
 	//"options_page": "options.html",
 	"permissions": [ "tabs", "http://*/*", "https://*/*", "file:///*", "<all_urls>"],
+	"web_accessible_resources": [
+       "images/camera.png"
+    ],
+	"commands": {
+		"preview-tab": {
+		  "suggested_key": {
+			"default": "Ctrl+Shift+F",
+			"mac": "Command+Shift+F"
+		  },
+		  "description": "Enable App Helper."
+		}
+	  },
 	"manifest_version": 2,
-	"version": "1.0.0.0"
+	"version": "1.0.0.3"
 }

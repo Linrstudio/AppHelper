@@ -11,6 +11,52 @@
 
 var apphelper = {};
 
+apphelper.config = {
+	remember : false,
+	enable320 : true,
+	enable480 : false,
+	enable640 : false
+}
+
+apphelper.addStyle = function(doc){
+var css = '::-webkit-scrollbar-track{\
+	border-radius:4px;\
+}\
+::-webkit-scrollbar-track-piece{\
+	-webkit-border-radius:4px;\
+}\
+::-webkit-scrollbar{\
+	width:5px;\
+	height:5px;\
+	border-radius:0px;\
+	background:none;\
+}\
+::-webkit-scrollbar-thumb{\
+	background-color:rgba(108,112,115,.1);\
+	border:solid 1px rgba(108,112,115,.05);\
+	border-radius:4px;\
+}\
+::-webkit-scrollbar-thumb:hover{\
+	background-color:rgba(108,112,115,.5);\
+	border-color:rgba(108,112,115,.2);\
+}\
+::-webkit-scrollbar-button:vertical:start:increment,\
+::-webkit-scrollbar-button:vertical:end:decrement {\
+    display:none;\
+}';
+
+var head = doc.getElementsByTagName("head")[0],
+	styles = head.getElementsByTagName("style"),style;
+
+        if(styles.length == 0){
+			style = doc.createElement('style');
+			style.setAttribute("type", "text/css");
+			head.insertBefore(style, null);
+        }
+        style = styles[0];
+        style.appendChild(doc.createTextNode(css));
+}
+
 apphelper.addDetailBox = function(){
 	var id = 'AH_SCREENS_BOX',
 		tag = document.getElementById(id);
@@ -20,15 +66,38 @@ apphelper.addDetailBox = function(){
 			tag.id = id;
 			tag.className = "AH_SCREENS";
 			tag.style.height = (document.documentElement.scrollHeight + document.documentElement.scrollTop) + 'px';
-			tag.innerHTML = '<div id="' + id + '_CNT" class="AH_SCREENS_CNT">\
-								<div class="AH_IFM AH_IFM1"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM1 iframe"><a class="AH_IFM_TXT" data-height="480">320 x 480</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=0></iframe></div>\
-								<div class="AH_IFM AH_IFM2"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM2 iframe"><a class="AH_IFM_TXT" data-height="720">480 x 720</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=1.5></iframe></div>\
-								<div class="AH_IFM AH_IFM3"><div class="AH_IFM_HEADER" data-iframe=".AH_IFM3 iframe"><a class="AH_IFM_TXT" data-height="960">640 x 960</a><a class="AH_CAPTURE" href="#!/capture/">' + apphelper.getString('capture') + '</a></div><iframe src="' + document.URL + '" frameborder=0 data-idx=2></iframe>\
-								</div>\
-							</div>';
+			tag.innerHTML = '<div id="' + id + '_CNT" class="AH_SCREENS_CNT"></div>';
 			previewbox.appendChild(tag);
-		document.documentElement.className += ' AH_SCROLLOR';
-		//location.href = '#auto-reload';
+			
+		var optbox = document.createElement('div');
+			optbox.id = 'AH_OPTION';
+			optbox.className = 'AH_OPTION';
+			optbox.innerHTML = '<ul>\
+	<li>\
+		<label>\
+			<input type="checkbox" id="AH_AUTORELOAD" value="remember" /> ' + apphelper.getString('remember') + '\
+		</label>\
+	</li>\
+	<li>\
+		<label>\
+			<input type="checkbox" data-group="offset" value="enable320" data-height="480" data-offset="320 x 480" /> 320x480\
+		</label>\
+	</li>\
+	<li>\
+		<label>\
+			<input type="checkbox" data-group="offset" value="enable480" data-height="720" data-offset="480 x 720" /> 480x720\
+		</label>\
+	</li>\
+	<li>\
+		<label>\
+			<input type="checkbox" data-group="offset" value="enable640" data-height="960" data-offset="640 x 960" /> 640x960\
+		</label>\
+	</li>\
+	<li></li>\
+</ul>';
+		previewbox.appendChild(optbox);
+		apphelper.addStyle(document);
+		apphelper.addView(apphelper.bindEvent);
 	}
 }
 
@@ -44,7 +113,7 @@ apphelper.initUI = function(){
 }
 
 apphelper.toggle = function(){
-	var panel = document.getElementById('AH_SCREENS_BOX');
+	var panel = document.getElementById('AH_MAIN');
 	if(panel){
 		var bool = panel.style.display == 'none';
 		panel.style.display = bool ? 'block' : 'none';
@@ -64,6 +133,7 @@ apphelper.bindEvent = function(doc){
 				offset = iframe.getBoundingClientRect();
 			}
 			apphelper.captureIframe(offset);
+			e.preventDefault();
 		}
 	}
 	var eles = document.querySelectorAll('.AH_IFM_TXT');
@@ -79,6 +149,7 @@ apphelper.bindEvent = function(doc){
 					iframe.style.height = iframe.contentDocument.documentElement.scrollHeight + 'px';
 				}
 			}
+			e.preventDefault();
 		}
 	}
 	var ifms = document.querySelectorAll('.AH_IFM iframe');
@@ -86,13 +157,27 @@ apphelper.bindEvent = function(doc){
 		ifms[i].onload = function(e){
 			var me = this;
 			var idx = me.getAttribute('data-idx');
-			me.contentDocument.body.style.zoom = idx;
+			if(me.contentDocument){
+				me.contentDocument.body.style.zoom = idx;
+				apphelper.addStyle(me.contentDocument);
+			}
+		}
+	}
+	var opt = document.getElementById('AH_OPTION');
+	opt.onclick = function(){
+		apphelper.saveConfig();
+	}
+	var auto = document.getElementById('AH_AUTORELOAD');
+	auto.onclick = function(){
+		if(this.checked){
+			location.href = '#auto-reload';
+		}else{
+			location.href = '#no-reload';
 		}
 	}
 }
 
 apphelper.captureIframe = function(offset){
-
 	chrome.extension.sendMessage({ 'name': 'capture_iframe', 'offset' : offset}, function (response) {
 		if (response) {}
 	})
@@ -106,7 +191,7 @@ apphelper.init = function(){
 	}else{
 		apphelper.initUI();
 		apphelper.addDetailBox();
-		apphelper.bindEvent();
+		apphelper.loadConfig();
 	}
 }
 
@@ -115,7 +200,6 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
   switch (request.msg) {
 	case 'clicked':
 		apphelper.init();
-
 	break;  
   }
 });
@@ -131,3 +215,74 @@ window.addEventListener('hashchange', function(){
 	apphelper.imagesList = null;
 	apphelper.init();
 }, false);
+
+apphelper.loadConfig = function(){
+	for(var p in this.config){
+		(function(p){
+			getValue(p, function(v){
+				var bool = v == 'true';
+				document.querySelector('.AH_OPTION input[value="' + p + '"]').checked = bool;
+			});
+		})(p);
+	}
+}
+
+apphelper.addView = function(callback){
+	var len = Object.keys(this.config).length;
+	var j = 0;
+	for(var p in this.config){
+		(function(p){
+			getValue(p, function(v){
+				var bool = v == 'true';
+				var isView = (p == 'enable320' || p == 'enable480' || p == 'enable640');
+				if(isView){
+					if(bool){
+						var checkbox = document.querySelector('.AH_OPTION input[value="' + p + '"]');
+						var parentNode = document.getElementById('AH_SCREENS_BOX_CNT');
+						var i = parentNode.children.length;
+						
+						var el = document.createElement('div');
+							el.className = 'AH_IFM AH_IFM' + i;
+							el.innerHTML = '<div class="AH_IFM_HEADER" data-iframe=".AH_IFM' + i + ' iframe"><a class="AH_IFM_TXT" data-height="' + checkbox.getAttribute('data-height') + '">' + checkbox.getAttribute('data-offset') + '</a><a class="AH_CAPTURE" href="#!/capture/" title="' + apphelper.getString('capture') + '"></a></div><iframe src="' + document.URL + '" frameborder="0" data-idx="' + i + '"></iframe>';
+							
+						parentNode.appendChild(el);
+					}
+				}else{
+					if(p == 'remember' && bool){
+						location.href = '#auto-reload';
+					}
+				}
+				j ++;
+				
+				if(j == len){
+					callback && callback();
+				}
+			});
+		})(p);
+	}
+}
+
+apphelper.saveConfig = function(){
+	for(var p in this.config){
+		(function(p){
+			var bool = document.querySelector('.AH_OPTION input[value="' + p + '"]').checked;
+				chrome.extension.sendMessage({ name: 'set_localstorage', key: p, val : bool}, function (response) {
+				
+				})
+		})(p)
+	}
+	//alert('save');
+}
+
+function getValue(val, valueHandler, scope) {
+    var thisObj = scope || window;
+    chrome.extension.sendMessage({ name: 'get_localstorage', val: val }, function (response) {
+		if (typeof (response.val) == 'undefined') {
+            valueHandler.call(thisObj, apphelper.config[val]);
+            //valueHandler.call(thisObj, eval('APP_HELPER_CONFIG.' + val));
+            //valueHandler.call(thisObj, undefined);
+        } else {
+            valueHandler.call(thisObj, response.val);
+        }
+    });
+}

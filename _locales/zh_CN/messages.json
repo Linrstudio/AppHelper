@@ -11,6 +11,12 @@
    "capture": {
       "message": "截图"
    },
+   "disabled": {
+      "message": "禁用"
+   },
+   "remember": {
+      "message": "刷新支持"
+   },
    "user": {
       "description": ".",
       "message": "$number$ ",
