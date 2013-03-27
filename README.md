@@ -15,13 +15,15 @@ Web App 调试助手 是一个 Chrome 扩展，用于快速查看 Web app 在各
 * 需要重启浏览器；
 * 点击浏览器右上角“手机”图标即可启用。
 
-支持 url 后跟 #auto-reload 自动查看功能。如 http://isux.tencent.com/#auto-reload
+【选项】
+* 刷新支持——即刷新后自动启用；
+* 320x480、480x720、640x960 启用后，将同时显示勾选的尺寸；
 
+支持 url 后跟 #auto-reload 自动查看功能。如 http://isux.tencent.com/#auto-reload
 
 ### 反馈
 
 http://t.qq.com/linrstudio
-
 
 ## Web App Helper
 
