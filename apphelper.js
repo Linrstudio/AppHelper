@@ -56,7 +56,6 @@ var head = doc.getElementsByTagName("head")[0],
         style = styles[0];
         style.appendChild(doc.createTextNode(css));
 }
-
 apphelper.addDetailBox = function(){
 	var id = 'AH_SCREENS_BOX',
 		tag = document.getElementById(id);
@@ -79,7 +78,7 @@ apphelper.addDetailBox = function(){
 	</li>\
 	<li>\
 		<label>\
-			<input type="checkbox" data-group="offset" value="enable320" data-height="480" data-offset="320 x 480" data-zoom="1" /> 320x480\
+			<input type="checkbox" data-group="offset" value="enable320" data-height="480" data-offset="320 x 480" data-zoom="1" checked="true" /> 320x480\
 		</label>\
 	</li>\
 	<li>\
@@ -96,8 +95,10 @@ apphelper.addDetailBox = function(){
 </ul>';
 		previewbox.appendChild(optbox);
 		apphelper.addStyle(document);
-		apphelper.addView(apphelper.bindEvent);
+	}else{
+		document.getElementById('AH_SCREENS_BOX_CNT').innerHTML = '';
 	}
+	apphelper.addView(apphelper.bindEvent);
 }
 
 apphelper.initUI = function(){
@@ -172,6 +173,7 @@ apphelper.bindEvent = function(doc){
 	var opt = document.getElementById('AH_OPTION');
 	opt.onclick = function(){
 		apphelper.saveConfig();
+		apphelper.addDetailBox();
 	}
 	var auto = document.getElementById('AH_AUTORELOAD');
 	auto.onclick = function(){
@@ -195,9 +197,6 @@ apphelper.init = function(){
 	if(btn){
 		apphelper.toggle();
 	}else{
-		if (!localStorage.enable320) {
-			localStorage.enable320 = "true";
-		}
 		apphelper.initUI();
 		apphelper.addDetailBox();
 		apphelper.loadConfig();
@@ -217,6 +216,7 @@ window.addEventListener('load', function(){
 	var _hash = location.hash;
 	if(_hash == '#auto-reload'){
 		apphelper.init();
+		document.getElementById('AH_AUTORELOAD').checked = true;
 	}
 }, false);
 window.addEventListener('hashchange', function(){
@@ -229,7 +229,7 @@ apphelper.loadConfig = function(){
 	for(var p in this.config){
 		(function(p){
 			getValue(p, function(v){
-				var bool = v == 'true';
+				var bool = (v == 'true' || v === true);
 				document.querySelector('.AH_OPTION input[value="' + p + '"]').checked = bool;
 			});
 		})(p);
@@ -242,19 +242,21 @@ apphelper.addView = function(callback){
 	for(var p in this.config){
 		(function(p){
 			getValue(p, function(v){
-				var bool = v == 'true';
+				var bool = (v == 'true' || v === true);
 				var isView = (p == 'enable320' || p == 'enable480' || p == 'enable640');
 				if(isView){
 					if(bool){
 						var checkbox = document.querySelector('.AH_OPTION input[value="' + p + '"]');
 						var parentNode = document.getElementById('AH_SCREENS_BOX_CNT');
-						var i = parentNode.children.length;
-						
-						var el = document.createElement('div');
-							el.className = 'AH_IFM AH_IFM' + i;
-							el.innerHTML = '<div class="AH_IFM_HEADER" data-iframe=".AH_IFM' + i + ' iframe"><a class="AH_IFM_TXT" data-height="' + checkbox.getAttribute('data-height') + '">' + checkbox.getAttribute('data-offset') + '</a><a class="AH_CAPTURE" href="#!/capture/" title="' + apphelper.getString('capture') + '"></a></div><iframe src="' + document.URL + '" frameborder="0" data-idx="' + checkbox.getAttribute('data-zoom') + '"></iframe><textarea data-iframe=".AH_IFM' + i + ' iframe"></textarea>';
-							
-						parentNode.appendChild(el);
+						var i = j - 1;
+						var id = 'AH_IFM' + i;
+						if(!document.getElementById(id)){
+							var el = document.createElement('div');
+								el.className = 'AH_IFM ' + id;
+								el.id = id;
+							parentNode.appendChild(el);
+						}
+						el.innerHTML = '<div class="AH_IFM_HEADER" data-iframe=".AH_IFM' + i + ' iframe"><a class="AH_IFM_TXT" data-height="' + checkbox.getAttribute('data-height') + '">' + checkbox.getAttribute('data-offset') + '</a><a class="AH_CAPTURE" href="#!/capture/" title="' + apphelper.getString('capture') + '"></a></div><iframe src="' + document.URL + '" frameborder="0" data-idx="' + checkbox.getAttribute('data-zoom') + '"></iframe><textarea data-iframe=".AH_IFM' + i + ' iframe"></textarea>';
 					}
 				}else{
 					if(p == 'remember' && bool){
