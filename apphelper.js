@@ -65,7 +65,6 @@ apphelper.addDetailBox = function(){
 		tag = document.createElement('div');
 			tag.id = id;
 			tag.className = "AH_SCREENS";
-			tag.style.height = (document.documentElement.scrollHeight + document.documentElement.scrollTop) + 'px';
 			tag.innerHTML = '<div id="' + id + '_CNT" class="AH_SCREENS_CNT"></div>';
 			previewbox.appendChild(tag);
 			
@@ -80,17 +79,17 @@ apphelper.addDetailBox = function(){
 	</li>\
 	<li>\
 		<label>\
-			<input type="checkbox" data-group="offset" value="enable320" data-height="480" data-offset="320 x 480" /> 320x480\
+			<input type="checkbox" data-group="offset" value="enable320" data-height="480" data-offset="320 x 480" data-zoom="1" /> 320x480\
 		</label>\
 	</li>\
 	<li>\
 		<label>\
-			<input type="checkbox" data-group="offset" value="enable480" data-height="720" data-offset="480 x 720" /> 480x720\
+			<input type="checkbox" data-group="offset" value="enable480" data-height="720" data-offset="480 x 720" data-zoom="1.5" /> 480x720\
 		</label>\
 	</li>\
 	<li>\
 		<label>\
-			<input type="checkbox" data-group="offset" value="enable640" data-height="960" data-offset="640 x 960" /> 640x960\
+			<input type="checkbox" data-group="offset" value="enable640" data-height="960" data-offset="640 x 960" data-zoom="2" /> 640x960\
 		</label>\
 	</li>\
 	<li></li>\
@@ -123,6 +122,9 @@ apphelper.toggle = function(){
 apphelper.getString = chrome.i18n.getMessage;
 
 apphelper.bindEvent = function(doc){
+	var screen = document.getElementById('AH_SCREENS_BOX');
+	var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+		screen.style.height = (scrollHeight + document.documentElement.scrollTop) + 'px';
 	var els = document.querySelectorAll('.AH_CAPTURE');
 	for(var i = 0, j = els.length; i < j; i ++){
 		els[i].onclick = function(e){
@@ -141,12 +143,16 @@ apphelper.bindEvent = function(doc){
 		eles[i].onclick = function(e){
 			var me = this;
 			var selector = me.parentNode.getAttribute('data-iframe');
+			var textarea = document.querySelector(selector.replace('iframe', 'textarea'));
 			var iframe = document.querySelector(selector);
 			if(iframe){
 				if(iframe.hasAttribute('style')){
 					iframe.removeAttribute('style');
+					textarea.removeAttribute('style');
 				}else{
-					iframe.style.height = iframe.contentDocument.documentElement.scrollHeight + 'px';
+					var txtareaHeight = textarea.hasAttribute('style') ? parseInt(textarea.style.height, 10) - 12 : 0;
+					iframe.style.height = txtareaHeight + iframe.contentDocument.documentElement.scrollHeight + 'px';
+					textarea.removeAttribute('style');
 				}
 			}
 			e.preventDefault();
@@ -243,7 +249,7 @@ apphelper.addView = function(callback){
 						
 						var el = document.createElement('div');
 							el.className = 'AH_IFM AH_IFM' + i;
-							el.innerHTML = '<div class="AH_IFM_HEADER" data-iframe=".AH_IFM' + i + ' iframe"><a class="AH_IFM_TXT" data-height="' + checkbox.getAttribute('data-height') + '">' + checkbox.getAttribute('data-offset') + '</a><a class="AH_CAPTURE" href="#!/capture/" title="' + apphelper.getString('capture') + '"></a></div><iframe src="' + document.URL + '" frameborder="0" data-idx="' + i + '"></iframe>';
+							el.innerHTML = '<div class="AH_IFM_HEADER" data-iframe=".AH_IFM' + i + ' iframe"><a class="AH_IFM_TXT" data-height="' + checkbox.getAttribute('data-height') + '">' + checkbox.getAttribute('data-offset') + '</a><a class="AH_CAPTURE" href="#!/capture/" title="' + apphelper.getString('capture') + '"></a></div><iframe src="' + document.URL + '" frameborder="0" data-idx="' + checkbox.getAttribute('data-zoom') + '"></iframe><textarea data-iframe=".AH_IFM' + i + ' iframe"></textarea>';
 							
 						parentNode.appendChild(el);
 					}

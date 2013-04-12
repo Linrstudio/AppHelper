@@ -1,4 +1,6 @@
-.AH_IFM{position:relative;float:left;margin:10px;padding:5px;background:#DDD;}
+.AH_IFM{position:relative;float:left;margin:6px;padding:5px;background:#DDD;}
+.AH_IFM textarea{position:relative;top:0;left:50%;height:12px;margin-left:-8px;resize:vertical;width:17px;border:none;background:none;overflow:hidden;cursor:row-resize;}
+.AH_IFM textarea::-webkit-resizer{background:#AAA;border-radius:3px;}
 .AH_IFM0{width:320px;}
 .AH_IFM1{width:480px;}
 .AH_IFM2{width:640px;}
@@ -19,14 +21,18 @@
 	background:#FFF;
 }
 .AH_SCREENS_CNT{
-	padding:10px;
+	padding:6px;
 }
+.AH_SCREENS_CNT:after{content:'\20';display:block;clear:both;height:0;}
 .AH_SCREENS iframe{
 	width:100%;
 	outline:1px solid #FFF;
 	vertical-align:top;
 	background:#FFF;
 }
-.AH_SCREENS_CNT{overflow:hidden;}
 .AH_OPTION{position:absolute;right:0;top:0;z-index:99999999;padding:8px;color:#666;}
 .AH_OPTION li{margin-bottom:5px;}
+.AH_MAIN ul,.AH_MAIN li{list-style:none;}
+.AH_MAIN{font-size:12px;}
+#AH_MAIN .AH_IFM_TXT{-webkit-user-select:none;user-select:none;color:#FFF;}
+#AH_MAIN .AH_IFM_TXT:hover{text-decoration:none;color:#DFF6AE;}
