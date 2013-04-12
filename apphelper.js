@@ -195,6 +195,9 @@ apphelper.init = function(){
 	if(btn){
 		apphelper.toggle();
 	}else{
+		if (!localStorage.enable320) {
+			localStorage.enable320 = "true";
+		}
 		apphelper.initUI();
 		apphelper.addDetailBox();
 		apphelper.loadConfig();
